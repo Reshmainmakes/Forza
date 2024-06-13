@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kitchen Lunch Task Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #555;
+        }
+        input[type="date"],
+        input[type="text"],
+        select {
+            width: calc(100% - 22px); /* Adjusted width to accommodate padding and border */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            box-sizing: border-box; /* Ensures padding and border are included in the width */
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+            transform: translateY(2px); /* Adjusted alignment of checkboxes */
+        }
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .task-list {
+            margin: 20px 0;
+        }
+        .task-list h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .task-item label {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="kitchen_lunch_task" action="{% url 'kitchen_lunch_task_submit' %}" method="post">
+        {% csrf_token %}
+        <h1>Kitchen Lunch Form</h1>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required><br>
+        <label for="location">Select Location:</label>
+        <select name="location" id="location">
+            <option value="JP23">JP23</option>
+            <option value="KP5">KP5</option>
+            <option value="TS17">TS17</option>
+        </select><br>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <!-- Tasks with checkboxes -->
+        <h2>Tasks:</h2>
+        <div class="task-item">
+            <input type="checkbox" id="task_switch_on_devices" name="task_switch_on_devices" required>
+            <label for="task_switch_on_devices">Switch on all devices (oven, ventilation, dishwasher, KAV)</label>
+        </div>
+        <div class="task-item">
+            <input type="checkbox" id="task_set_up_stations" name="task_set_up_stations" required>
+            <label for="task_set_up_stations">Set up stations (garnish/toppings)</label>
+        </div>
+        <div class="task-item">
+            <input type="checkbox" id="task_check_balls_fridge" name="task_check_balls_fridge" required>
+            <label for="task_check_balls_fridge">Check balls in the fridge</label>
+        </div>
+        <div class="task-item">
+            <input type="checkbox" id="task_take_balls_fridge" name="task_take_balls_fridge" required>
+            <label for="task_take_balls_fridge">Take balls out of the fridge</label>
+        </div>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        // JavaScript validation to ensure all checkboxes are checked
+        document.getElementById("kitchen_lunch_task").addEventListener("submit", function(event) {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            var checked = false;
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    checked = true;
+                }
+            });
+            if (!checked) {
+                event.preventDefault();
+                alert("Please check all tasks before submitting the form.");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Department and Shift Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        select, input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+    <script>
+        function updateSectionField() {
+            var shift = document.getElementById("shift").value;
+            var department = document.getElementById("department").value;
+            var sectionField = document.getElementById("section-field");
+            var additionalField = document.getElementById("additional-field");
+
+            sectionField.style.display = (shift === "specialcleaningwednesday") ? "block" : "none";
+            additionalField.style.display = ((department === "kitchen" && (shift === "lunch" || shift === "late"))) ? "block" : "none";
+        }
+    </script>
+</head>
+<body>
+    <form action="{% url 'department_shift_selection' %}" method="post">
+        {% csrf_token %}
+        <h1>Department and Shift Selection</h1>
+        <label for="department">Select Department:</label>
+        <select name="department" id="department" onchange="updateSectionField()">
+            <option value="kitchen">Kitchen</option>
+            <option value="terminal">Terminal</option>
+        </select>
+
+        <label for="shift">Select Shift:</label>
+        <select name="shift" id="shift" onchange="updateSectionField()">
+            <option value="lunch">Lunch</option>
+            <option value="late">Late</option>
+            <option value="specialcleaningmonday">Special Cleaning (Monday)</option>
+            <option value="specialcleaningwednesday">Special Cleaning (Wednesday)</option>
+        </select>
+
+        <div id="section-field" class="hidden">
+            <label for="section">Select Section:</label>
+            <select name="section" id="section">
+                <option value="kitchen">Kitchen</option>
+                <option value="dry_storage">Dry Storage</option>
+                <option value="apartment">Apartment</option>
+            </select>
+        </div>
+
+        <div id="additional-field" class="hidden">
+            <label for="action">Select Action:</label>
+            <select name="action" id="action">
+                <option value="quantity">Quantity</option>
+                <option value="task">Task</option>
+            </select>
+        </div>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        // Initialize section field display based on the current selection
+        updateSectionField();
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kitchen Lunch Quantity Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="kitchen_lunch_form" action="{% url 'kitchen_lunch_submit' %}" method="post">
+        {% csrf_token %}
+        <h1>Kitchen Lunch Quantity Form</h1>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required><br>
+        <label for="location">Select Location:</label>
+        <select name="location" id="location">
+            <option value="JP23">JP23</option>
+            <option value="KP5">KP5</option>
+            <option value="TS17">TS17</option>
+        </select><br>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="balls_amount">Amount of balls:</label>
+        <input type="number" id="balls_amount" name="balls_amount" required><br>
+        <label for="today_balls_total">Total amount of balls for today:</label>
+        <input type="number" id="today_balls_total" name="today_balls_total" required><br>
+        <label for="yesterday_balls_total">How many of them are from yesterday?</label>
+        <input type="number" id="yesterday_balls_total" name="yesterday_balls_total" required><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

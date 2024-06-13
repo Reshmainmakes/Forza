@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kitchen Special Cleaning(Monday)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #555;
+        }
+        input[type="date"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .task-list {
+            margin: 20px 0;
+        }
+        .task-list h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .task-item label {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="kitchen_specialcleaning_monday" action="{% url 'kitchen_specialcleaning_monday_submit' %}" method="post">
+        {% csrf_token %}
+        <h1>Kitchen Special Cleaning(Monday)</h1>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required><br>
+        <label for="location">Select Location:</label>
+
+        <select name="location" id="location">
+            <option value="JP23">JP23</option>
+            <option value="KP5">KP5</option>
+            <option value="TS17">TS17</option>
+        </select>
+        <br>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <!-- Tasks with checkboxes -->
+        <h2>Tasks:</h2>
+        <div class="task-item">
+            <input type="checkbox" id="task_cooling_cell" name="task_cooling_cell" required>
+            <label for="task_cooling_cell">Cooling cell (take everything out, wipe floor wet)</label><br>
+        </div>
+
+        <div class="task-item">
+            <input type="checkbox" id="task_dishwasher" name="task_dishwasher" required>
+            <label for="task_dishwasher">Dishwasher (fill with salt)</label><br>
+        </div>
+
+        <div class="task-item">
+            <input type="checkbox" id="task_large_cooling_display" name="task_large_cooling_display" required>
+            <label for="task_large_cooling_display">Large cooling display cabinet, defrost and clean (inside)</label><br>
+        </div>
+
+        <div class="task-item">
+            <input type="checkbox" id="task_under_sink" name="task_under_sink" required>
+            <label for="task_under_sink">Under the sink (take everything out, wipe floor wet)</label><br>
+        </div>
+
+        <div class="task-item">
+            <input type="checkbox" id="task_dough_boxes" name="task_dough_boxes" required>
+            <label for="task_dough_boxes">Dough boxes (wipe outside with a damp cloth including lid)</label><br>
+        </div>
+
+        <div class="task-item">
+            <input type="checkbox" id="task_shelves_dough_machine" name="task_shelves_dough_machine" required>
+            <label for="task_shelves_dough_machine">Shelves (take everything out, wipe all floors wet) Dough machine (wipe with a damp cloth, inside and outside)</label><br>
+        </div>
+
+        <div class="task-item">
+            <input type="checkbox" id="task_scales" name="task_scales" required>
+            <label for="task_scales">Scales (wipe with a damp cloth)</label><br>
+        </div>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        // JavaScript validation to ensure all checkboxes are checked
+        document.getElementById("kitchen_specialcleaning_monday").addEventListener("submit", function(event) {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            var checked = false;
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    checked = true;
+                }
+            });
+            if (!checked) {
+                event.preventDefault();
+                alert("Please check all tasks before submitting the form.");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kitchen Lunch Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #555;
+        }
+        input[type="date"],
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .task-list {
+            margin: 20px 0;
+        }
+        .task-list h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .task-item label {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="wednesday_cleaning_kitchen" action="{% url 'wednesday_cleaning_submit' %}" method="post">
+        {% csrf_token %}
+        <h1>Wednesday Kitchen Cleaning</h1>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required><br>
+        <label for="location">Select Location:</label>
+        <select name="location" id="location">
+            <option value="JP23">JP23</option>
+        </select>
+        <br>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <!-- Tasks with checkboxes -->
+        <h2>Tasks:</h2>
+        <div class="task-item">
+            <input type="checkbox" id="clean_seals" name="clean_seals" required>
+            <label for="clean_seals">Clean seals on all 3 refrigerators (wet)</label><br>
+        </div>
+
+        <div class="task-item">
+            <input type="checkbox" id="clean_surfaces" name="clean_surfaces" required>
+            <label for="clean_surfaces">Clean inside surfaces (wet)</label><br>
+        </div>
+
+        <div class="task-item">
+            <input type="checkbox" id="clean_door_glass" name="clean_door_glass" required>
+            <label for="clean_door_glass">Clean door/glass surface (wet or with glass cleaner)</label><br>
+        </div>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        // JavaScript validation to ensure all checkboxes are checked
+        document.getElementById("wednesday_cleaning_kitchen").addEventListener("submit", function(event) {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            var checked = false;
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    checked = true;
+                }
+            });
+            if (!checked) {
+                event.preventDefault();
+                alert("Please check all tasks before submitting the form.");
+            }
+        });
+    </script>
+</body>
+</html>

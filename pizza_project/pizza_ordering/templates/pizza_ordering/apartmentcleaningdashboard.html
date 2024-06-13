@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Apartment Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        button {
+            display: block;
+            width: 120px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 20px auto;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Apartment Cleaning Dashboard</h1>
+    <table id="dashboard-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for apartment_cleaning_form in apartment_cleaning_forms %}
+            <tr>
+                <td>{{ apartment_cleaning_form.date }}</td>
+                <td>{{ apartment_cleaning_form.location }}</td>
+                <td>{{ apartment_cleaning_form.name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button id="download-pdf-btn">Download PDF</button>
+
+    <!-- JavaScript libraries for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- JavaScript code for handling PDF download -->
+    <script>
+        document.getElementById('download-pdf-btn').addEventListener('click', function() {
+            savePageAsPDF();
+        });
+
+        function savePageAsPDF() {
+            const doc = new jsPDF();
+            const elem = document.getElementById("dashboard-table");
+            const res = doc.autoTableHtmlToJson(elem);
+            doc.autoTable(res.columns, res.data, { startY: 10 });
+            doc.save('dashboard.pdf');
+        }
+    </script>
+</body>
+</html>
